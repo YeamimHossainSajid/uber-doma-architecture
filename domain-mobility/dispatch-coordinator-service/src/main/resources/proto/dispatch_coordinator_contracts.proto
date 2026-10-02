@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package com.uber.doma.domain_mobility.dispatch_coordinator;
+
+option java_multiple_files = true;
+option java_package = "com.uber.doma.domain_mobility.dispatch_coordinator.proto";
+
+// DISCO algorithmic matching request payload
+message DispatchMatchRequest {
+  // Unique UUID string of the trip being matched
+  string trip_id = 1;
+
+  // WGS-84 pickup latitude in degrees [-90.0, 90.0]
+  double pickup_lat = 2;
+
+  // WGS-84 pickup longitude in degrees [-180.0, 180.0]
+  double pickup_lng = 3;
+
+  // Maximum allowed driver dispatch radius in meters
+  int32 max_radius_meters = 4;
+}

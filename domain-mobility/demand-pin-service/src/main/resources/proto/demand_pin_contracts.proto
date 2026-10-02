@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package com.uber.doma.domain_mobility.demand_pin;
+
+option java_multiple_files = true;
+option java_package = "com.uber.doma.domain_mobility.demand_pin.proto";
+
+// Ingestion payload for rider pickup pin drop events
+message DemandPinDrop {
+  // Unique UUID string of the requesting rider
+  string rider_id = 1;
+
+  // WGS-84 pickup latitude in degrees [-90.0, 90.0]
+  double pickup_lat = 2;
+
+  // WGS-84 pickup longitude in degrees [-180.0, 180.0]
+  double pickup_lng = 3;
+
+  // Requested vehicle service tier (e.g. UBER_X, COMFORT)
+  string requested_tier = 4;
+}

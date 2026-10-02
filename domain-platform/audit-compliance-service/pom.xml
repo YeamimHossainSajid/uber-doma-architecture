@@ -57,6 +57,14 @@
             <artifactId>common-redis</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Uber H3 hexagonal spatial index. Provides O(1) lat/lng → cell
+             conversion and constant-time neighbor ring lookups used for
+             geo-clustered audit queries. Version inherited from the
+             uber-doma-parent dependencyManagement section. -->
+        <dependency>
+            <groupId>com.uber</groupId>
+            <artifactId>h3</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

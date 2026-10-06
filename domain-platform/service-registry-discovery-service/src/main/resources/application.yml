@@ -12,3 +12,14 @@ spring:
     url: jdbc:postgresql://localhost:5432/service_registry_discovery_service_db
     username: uber
     password: uber_password
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package com.uber.doma.domain_mobility.dynamic_surge;
+
+option java_multiple_files = true;
+option java_package = "com.uber.doma.domain_mobility.dynamic_surge.proto";
+
+// Ingestion payload for real-time surge quote requests
+message SurgeMultiplierQuoteRequest {
+  // Target Uber H3 hexagonal index string
+  string hex_id = 1;
+
+  // Active vehicle service tier
+  string vehicle_tier = 2;
+
+  // Epoch timestamp in milliseconds
+  int64 timestamp_ms = 3;
+}

@@ -272,6 +272,13 @@ cd uber-doma-architecture
 ./mvnw clean install -DskipTests
 ```
 
+On Windows (PowerShell / cmd):
+```powershell
+.\mvnw.cmd clean install -DskipTests
+```
+
+> The Maven Wrapper downloads the pinned Maven version (3.10.0, see `.mvn/wrapper/maven-wrapper.properties`) on first run, so no local Maven install is required — only a JDK 21.
+
 ### 2. Launch Local Environment (Docker Compose)
 ```bash
 # Spin up core Mobility and Billing domains with databases:

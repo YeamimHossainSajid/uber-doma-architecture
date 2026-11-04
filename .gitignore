@@ -3,3 +3,6 @@ target/
 *.class
 *.jar
 *.war
+
+# Maven Wrapper (only-script type: no wrapper jar is committed)
+.mvn/wrapper/maven-wrapper.jar

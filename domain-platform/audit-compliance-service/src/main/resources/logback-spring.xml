@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Logging for audit-compliance-service.
+
+  Default: one JSON object per line on stdout (logstash-logback-encoder), ready
+  for ELK / Loki ingestion. Every SLF4J MDC entry is emitted as a top-level
+  field, which carries the correlation keys:
+    - traceId / spanId / parentSpanId : W3C trace context (TraceContextMdcBinder)
+    - requestTraceId                  : X-Trace-ID request header (RequestCorrelationMdc)
+    - riderId                         : X-Rider-ID request header (RequestCorrelationMdc)
+
+  Profile "local": human-readable single-line pattern for development.
+-->
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
-    <property name="LOG_PATTERN"
-              value="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd'T'HH:mm:ss.SSSXXX}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%15.40t] traceId=%X{traceId} spanId=%X{spanId} parentSpanId=%X{parentSpanId} %-40.40logger{39} : %m%n%wEx"/>
+    <springProperty scope="context" name="SERVICE_NAME" source="spring.application.name"
+                    defaultValue="audit-compliance-service"/>
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>${LOG_PATTERN}</pattern>
-            <charset>${CONSOLE_LOG_CHARSET:-UTF-8}</charset>
-        </encoder>
-    </appender>
+    <springProfile name="local">
+        <property name="LOG_PATTERN"
+                  value="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd'T'HH:mm:ss.SSSXXX}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%15.40t] traceId=%X{traceId} spanId=%X{spanId} parentSpanId=%X{parentSpanId} requestTraceId=%X{requestTraceId} riderId=%X{riderId} %-40.40logger{39} : %m%n%wEx"/>
+
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${LOG_PATTERN}</pattern>
+                <charset>${CONSOLE_LOG_CHARSET:-UTF-8}</charset>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="!local">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <customFields>{"service":"${SERVICE_NAME}"}</customFields>
+            </encoder>
+        </appender>
+    </springProfile>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>

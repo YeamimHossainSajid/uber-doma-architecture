@@ -28,6 +28,14 @@
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-logging</artifactId>
         </dependency>
+        <!-- Structured JSON logging for ELK / Loki ingestion. The 8.x line
+             targets Logback 1.5, which Spring Boot 3.3 ships. Encoder wiring
+             lives in src/main/resources/logback-spring.xml. -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>8.0</version>
+        </dependency>
         <dependency>
             <groupId>net.devh</groupId>
             <artifactId>grpc-spring-boot-starter</artifactId>
